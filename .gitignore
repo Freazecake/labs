@@ -1,1 +1,5 @@
-*.exe
+laba2/*.exe
+laba4/*.exe
+
+laba2/*.vscode
+laba4/*.vscode
