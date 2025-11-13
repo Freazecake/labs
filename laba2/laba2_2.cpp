@@ -1,15 +1,18 @@
 #include<iostream>
 #include<cmath>
 
+void calcDigits(int num, int *digits,int &digitNumber){
+    while(num>0){
+        digits[digitNumber]=num%10;
+        ++digitNumber;
+        num/=10;
+    }
+}
+
 bool IsArmstrongNumber(int num){
-    int n=num;
     int digitNumber{};
     int digits[20];
-    while(n>0){
-        digits[digitNumber]=n%10;
-        ++digitNumber;
-        n/=10;
-    }
+    calcDigits(num, digits, digitNumber);
     int sum{};
     for(size_t i=0;i<digitNumber;++i){
         sum+=pow(digits[i],digitNumber);

@@ -28,6 +28,7 @@ int main(){
         std::cout<<msg;
     }
 }
+
 void calcDigits(int num, int *digits,int &digitNumber){
     while(num>0){
         digits[digitNumber]=num%10;

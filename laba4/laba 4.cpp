@@ -213,22 +213,6 @@ void func(T arr, int size)
 //     }
 // }
 
-// struct GOD_SWITCH{
-//     int size{};
-//     void* arr;
-
-//     GOD_SWITCH(int _size, int _case) : size{_size} {
-//         if (_case) {
-//             arr = static_cast<void*> vector<vector<int>>* arr(size, vector<int>(size));
-//         } else {
-//             arr = static_cast<void*>
-//         }
-//     }
-
-//     std::vector<std::vector<int>> arr (size, std::vector<int>(size));
-//     int** arr = new int*[size];
-// };
-
 int main()
 {
     try
