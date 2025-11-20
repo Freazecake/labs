@@ -1,5 +1,9 @@
 laba2/*.exe
 laba4/*.exe
+students/*.exe
+
+students/*.txt
 
 laba2/*.vscode/
 laba4/*.vscode/
+students/.vscode/
