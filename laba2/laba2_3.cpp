@@ -1,54 +1,77 @@
-#include<iostream>
+#include <iostream>
 
-void calcDigits(int num, int *digits,size_t digitNumber);
+void calcDigits(int num, int *digits, size_t digitNumber);
 bool IsGoodNumber(int num);
 
-int main(){
-    try{
+int main()
+{
+    try
+    {
         int a, b;
 
-        std::cout<<"enter left border: ";
-        if(!(std::cin>>a))  throw "you need to enter a number\n";
-        std::cout<<"enter right border: ";
-        if(!(std::cin>>b))  throw "you need to enter a number\n";
+        std::cout << "enter left border: ";
+        if (!(std::cin >> a)){
+            throw "you need to enter a number\n";
+        }
+        std::cout << "enter right border: ";
+        if (!(std::cin >> b)){
+            throw "you need to enter a number\n";
+        }
+        if(a<0 || b<0){
+            throw "numbers shold be positive";
+        }
 
-        if(a>b) std::swap(a, b);
-        bool IsOneNumber=0;
-        for(int i=a; i<=b; ++i){
-            if(IsGoodNumber(i)){
-                if (!IsOneNumber){
-                IsOneNumber=1;
-                std::cout<<"Numbers which digits are in increasing order: ";
-            }
-            std::cout<<i<<" ";
+        if (a > b){
+            std::swap(a, b);
+        }
+            
+        bool IsOneNumber = 0;
+        for (int i = a; i <= b; ++i)
+        {
+            if (IsGoodNumber(i))
+            {
+                if (!IsOneNumber)
+                {
+                    IsOneNumber = 1;
+                    std::cout << "Numbers which digits are in increasing order: ";
+                }
+                std::cout << i << " ";
             }
         }
+        if(!IsOneNumber){
+            std::cout<<"there is no such numbers";
+        }
     }
-    catch(const char* msg){
-        std::cout<<msg;
+    catch (const char *msg)
+    {
+        std::cout << msg;
     }
 }
 
-void calcDigits(int num, int *digits,int &digitNumber){
-    while(num>0){
-        digits[digitNumber]=num%10;
+void calcDigits(int num, int *digits, int &digitNumber)
+{
+    while (num > 0)
+    {
+        digits[digitNumber] = num % 10;
         ++digitNumber;
-        num/=10;
+        num /= 10;
     }
 }
 
-bool IsGoodNumber(int num){
+bool IsGoodNumber(int num)
+{
     int digitNumber{};
     int digits[20];
-    bool IsGoodNum=1;
-    
+    bool IsGoodNum = 1;
+
     calcDigits(num, digits, digitNumber);
-    for(size_t i=0;i<digitNumber-1;++i){
-        if(digits[i]<digits[i+1]){
-            IsGoodNum=0;
+    for (size_t i = 0; i < digitNumber - 1; ++i)
+    {
+        if (digits[i] <= digits[i + 1])
+        {
+            IsGoodNum = 0;
             break;
         }
     }
     return IsGoodNum;
 }
-

@@ -3,6 +3,7 @@
 #include <ctime>
 #include <random>
 #include <vector>
+#include <iomanip>
 
 int get_status()
 {
@@ -162,7 +163,7 @@ void print_matrix(T &arr, int size)
     for (size_t i = 0; i < size; ++i)
     {
         for (size_t j = 0; j < size; ++j)
-            std::cout << arr[i][j] << ' ';
+            std::cout <<std::setw(5)<< arr[i][j] << ' ';
         std::cout << std::endl;
     }
 }
@@ -227,18 +228,24 @@ int main()
 
         switch (ArrayType())
         {
-        case 1:
+        case 1:{
             int **arr = new int *[size];
             for (size_t i = 0; i < size; ++i)
             {
                 arr[i] = new int[size];
             }
             func(arr, size);
+            for(size_t i = 0; i < size; ++i){
+                delete[] arr[i];
+            }
+            delete arr;
             break;
-        case 2:
+        }
+        case 2:{
             std::vector<std::vector<int>> arr(size, std::vector<int>(size));
             func(arr, size);
             break;
+        }
         }
     }
     catch (const char *msg)

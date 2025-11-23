@@ -6,6 +6,18 @@
 #include <cctype>
 #include <algorithm>
 
+void fileChecking(std::ifstream &fin){
+    if(fin.good()){
+        throw "file doesnt exist";
+    }
+    if(!fin){
+        throw "file error";
+    }
+    if(fin.peek()==EOF){
+        throw "file is empty";
+    }
+}
+
 bool my_isalpha(char ch)
 {
     return std::isalpha(static_cast<unsigned char>(ch));
@@ -20,7 +32,7 @@ struct Student
     std::string otchestvo;
     std::vector<int16_t> marks;
 
-    Student(int16_t _course, int16_t _group, std::string _name, std::string _surname,
+    Student(int16_t _course, int16_t _group, std::string _surname, std::string _name,
             std::string _otchestvo, std::vector<int16_t> _marks)
     {
         course = _course;
@@ -39,9 +51,9 @@ void printStudent(std::vector<Student> &students, std::ofstream &fout, int16_t i
 {
     fout << "Course: " << students[id].course << '\n';
     fout << "Group: " << students[id].group << '\n';
-    fout << "Name: " << students[id].name << '\n';
-    fout << "Surname: " << students[id].surname << '\n';
-    fout << "Otchestvo: " << students[id].otchestvo << '\n';
+    fout << "Surname:" << students[id].surname << '\n';
+    fout << "Name:" << students[id].name << '\n';
+    fout << "Otchestvo:" << students[id].otchestvo << '\n';
     fout << "Marks: ";
     for (auto j : students[id].marks)
     {
@@ -95,9 +107,11 @@ std::vector<int16_t> getVec(std::string &i)
             marks.push_back(static_cast<int16_t>(mark));
             k += g;
         }
-        ++k;
+        else
+        {
+            ++k;
+        }
     }
-    ++k;
     return marks;
 }
 
@@ -195,13 +209,13 @@ void getStudents(std::vector<Student> &students, std::vector<std::string> &lines
         lines_size = i.size();
         temp_student.course = getNum(i, j);
         temp_student.group = getNum(i, j);
-        temp_student.name = getStr(i, j);
         temp_student.surname = getStr(i, j);
+        temp_student.name = getStr(i, j);
         temp_student.otchestvo = getStr(i, j);
-        i=i.substr(j);
+        i = i.substr(j);
         temp_student.marks = getVec(i);
         students.push_back(temp_student);
-        temp_student=Student(0, 0, "", "", "", std::vector<int16_t>{});
+        temp_student = Student(0, 0, "", "", "", std::vector<int16_t>{});
     }
     std::cout << "Students read: " << students.size() << '\n';
 }
@@ -211,14 +225,18 @@ void sortingStudents(std::vector<Student> &students, std::ofstream &fout)
     std::sort(students.begin(), students.end(), [](const Student &a, const Student &b)
               {
         if(a.course<b.course)   return 1;
+        else if(a.course>b.course)  return 0;
         else{
             if(a.group<b.group)   return 1;
+            else if(a.group>b.group)  return 0;
             else{
                 if(a.surname<b.surname)   return 1;
+                else if(a.surname>b.surname)  return 0;
                 else{
                     if(a.name<b.name)    return 1;
+                    else if(a.name>b.name)  return 0;
         return 0;
-        }}}});
+        }}} });
     fout << "Sorted students:\n";
     for (size_t i = 0; i < students.size(); ++i)
     {
@@ -231,17 +249,12 @@ std::vector<int16_t> namesakes(std::vector<Student> &students)
     int n = students.size();
     std::sort(students.begin(), students.end(), [](const Student &a, const Student &b)
               { return a.name > b.name; });
-    std::vector<std::string> names(n);
-    for (size_t i = 0; i < n; ++i)
-    {
-        names[i] = students[i].name;
-    }
     std::vector<int16_t> id;
     for (size_t i = 0; i < n - 1; ++i)
     {
-        if (names[i] == names[i + 1])
+        if (students[i].name == students[i + 1].name)
         {
-            while (names[i] == names[i + 1] && i < n - 1)
+            while (i < n - 1 && students[i].name == students[i + 1].name)
             {
                 id.push_back(i);
                 ++i;
@@ -315,10 +328,17 @@ void exelentStudents(std::vector<Student> &students, std::ofstream &fout)
     }
 }
 
+void someUI(std::ofstream &fout)
+{
+    fout << "------------------------------------------------\n\n";
+}
+
 int main()
 {
-    std::ifstream fin("in.txt");
+    try{
+        std::ifstream fin("in.txt");
     std::ofstream fout("answer.txt");
+    fileChecking(fin);
 
     std::vector<std::string> lines;
     getLines(lines, fin);
@@ -328,22 +348,36 @@ int main()
     getStudents(students, lines);
 
     sortingStudents(students, fout);
+    someUI(fout);
     std::vector<int16_t> id = namesakes(students);
     int n = id.size();
     if (n != 0)
     {
         fout << "namesakes:\n";
-        for (size_t i = 0; i < n; ++i)
+        for (size_t i = 0; i < n - 1; ++i)
         {
-            printStudent(students, fout, id[i]);
+            if (id[i] == -1)
+            {
+                fout << "----\n";
+            }
+            else
+            {
+                printStudent(students, fout, id[i]);
+            }
         }
     }
     else
     {
         fout << "There is no namesakes amoung the students\n\n";
     }
+    someUI(fout);
     worstStudents(students, fout);
+    someUI(fout);
     exelentStudents(students, fout);
 
     fout.close();
+    }
+    catch(const char *msg){
+        std::cout<<msg;
+    }
 }
