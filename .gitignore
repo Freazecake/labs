@@ -1,9 +1,11 @@
 laba2/*.exe
 laba4/*.exe
+laba5/*.exe
 students/*.exe
 
 students/*.txt
 
 laba2/*.vscode/
 laba4/*.vscode/
+laba5/*.vscode/
 students/.vscode/

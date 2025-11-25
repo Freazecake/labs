@@ -6,14 +6,18 @@
 #include <cctype>
 #include <algorithm>
 
-void fileChecking(std::ifstream &fin){
-    if(fin.good()){
+void fileChecking(std::ifstream &fin)
+{
+    if (!fin.good())
+    {
         throw "file doesnt exist";
     }
-    if(!fin){
+    if (!fin)
+    {
         throw "file error";
     }
-    if(fin.peek()==EOF){
+    if (fin.peek() == EOF)
+    {
         throw "file is empty";
     }
 }
@@ -209,8 +213,8 @@ void getStudents(std::vector<Student> &students, std::vector<std::string> &lines
         lines_size = i.size();
         temp_student.course = getNum(i, j);
         temp_student.group = getNum(i, j);
-        temp_student.surname = getStr(i, j);
         temp_student.name = getStr(i, j);
+        temp_student.surname = getStr(i, j);
         temp_student.otchestvo = getStr(i, j);
         i = i.substr(j);
         temp_student.marks = getVec(i);
@@ -335,49 +339,51 @@ void someUI(std::ofstream &fout)
 
 int main()
 {
-    try{
-        std::ifstream fin("in.txt");
-    std::ofstream fout("answer.txt");
-    fileChecking(fin);
-
-    std::vector<std::string> lines;
-    getLines(lines, fin);
-    fin.close();
-
-    std::vector<Student> students;
-    getStudents(students, lines);
-
-    sortingStudents(students, fout);
-    someUI(fout);
-    std::vector<int16_t> id = namesakes(students);
-    int n = id.size();
-    if (n != 0)
+    try
     {
-        fout << "namesakes:\n";
-        for (size_t i = 0; i < n - 1; ++i)
+        std::ifstream fin("in.txt");
+        std::ofstream fout("answer.txt");
+        fileChecking(fin);
+
+        std::vector<std::string> lines;
+        getLines(lines, fin);
+        fin.close();
+
+        std::vector<Student> students;
+        getStudents(students, lines);
+
+        sortingStudents(students, fout);
+        someUI(fout);
+        std::vector<int16_t> id = namesakes(students);
+        int n = id.size();
+        if (n != 0)
         {
-            if (id[i] == -1)
+            fout << "namesakes:\n";
+            for (size_t i = 0; i < n - 1; ++i)
             {
-                fout << "----\n";
-            }
-            else
-            {
-                printStudent(students, fout, id[i]);
+                if (id[i] == -1)
+                {
+                    fout << "----\n";
+                }
+                else
+                {
+                    printStudent(students, fout, id[i]);
+                }
             }
         }
-    }
-    else
-    {
-        fout << "There is no namesakes amoung the students\n\n";
-    }
-    someUI(fout);
-    worstStudents(students, fout);
-    someUI(fout);
-    exelentStudents(students, fout);
+        else
+        {
+            fout << "There is no namesakes amoung the students\n\n";
+        }
+        someUI(fout);
+        worstStudents(students, fout);
+        someUI(fout);
+        exelentStudents(students, fout);
 
-    fout.close();
+        fout.close();
     }
-    catch(const char *msg){
-        std::cout<<msg;
+    catch (const char *msg)
+    {
+        std::cout << msg;
     }
 }
