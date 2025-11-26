@@ -124,91 +124,8 @@ void getStudents(std::vector<Student> &students, std::vector<std::string> &lines
     size_t lines_size;
 
     Student temp_student(0, 0, "", "", "", std::vector<int16_t>{});
-    // bool IsGoodStr=0;
     for (auto i : lines)
     {
-        // switch(j%6){
-        // case 0:{
-        //     int16_t course_{};
-        //     for(size_t k=0;k<i.size();++k)
-        //         if(isdigit(i[k])){
-        //             course_ = i[k] - '0';
-        //             IsGoodStr=1;
-        //         }
-        //     temp_student.course=course_;
-        //     break;
-        // }
-        // case 1:{
-        //     int16_t group_{};
-        //     for(size_t k=0;k<i.size();++k){
-        //         if(isdigit(i[k])){
-        //             group_ += i[k] - '0';
-        //             IsGoodStr=1;
-        //         }
-        //     }
-        //     temp_student.group=group_;
-        //     break;
-        // }
-        // case 2:{
-        //    std::string name_;
-        //     for(auto g : i){
-        //         if(my_isalpha(g)){
-        //             name_+=g;
-        //             IsGoodStr=1;
-        //         }
-        //     }
-        //     temp_student.name=name_;
-        //     break;
-        // }
-        // case 3:{
-        //     std::string surname_;
-        //     for(auto g : i){
-        //         if(my_isalpha(g)){
-        //             surname_+=g;
-        //             IsGoodStr=1;
-        //         }
-        //     }
-        //     temp_student.surname=surname_;
-        //     break;
-        // }
-        // case 4:{
-        //     std::string otchestvo_;
-        //     for(auto g : i){
-        //         if(my_isalpha(g)){
-        //             otchestvo_+=g;
-        //             IsGoodStr=1;
-        //         }
-        //     }
-        //     temp_student.otchestvo=otchestvo_;
-        //     break;
-        // }
-        // case 5:{
-        //     std::vector<int16_t> marks_;
-        //     size_t k{};
-        //     while(k < i.size()){
-        //         if(isdigit(i[k])){
-        //             size_t g{k};
-        //             int mark = std::stoi(i.substr(k), &g);
-        //             marks_.push_back(static_cast<int16_t>(mark));
-        //             k+=g;
-        //             IsGoodStr=1;
-        //         }
-        //         ++k;
-        //     }
-        //     temp_student.marks=marks_;
-        //     break;
-        // }}
-        // if(j%6==0 && j!=0){
-        //     if(IsGoodStr)
-        //         students.push_back(temp_student);
-        //     temp_student=Student(0, 0, "", "", "", std::vector<int16_t>{});
-        //     if((static_cast<int>(lines.size())-j)/6==0)
-        //         break;
-        // }
-        // if(IsGoodStr){
-        //     ++j;
-        //     IsGoodStr=0;
-        // }
         int j{};
         lines_size = i.size();
         temp_student.course = getNum(i, j);
@@ -219,7 +136,6 @@ void getStudents(std::vector<Student> &students, std::vector<std::string> &lines
         i = i.substr(j);
         temp_student.marks = getVec(i);
         students.push_back(temp_student);
-        temp_student = Student(0, 0, "", "", "", std::vector<int16_t>{});
     }
     std::cout << "Students read: " << students.size() << '\n';
 }
