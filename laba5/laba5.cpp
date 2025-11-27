@@ -1,6 +1,6 @@
-#include"firstIntegral.cpp"
-#include"secondIntegral.cpp"
-#include"thirdIntegral.cpp"
+#include "firstIntegral.h"
+#include "secondIntegral.h"
+#include "thirdIntegral.h"
 
 int main(){
     try{
