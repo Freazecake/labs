@@ -10,7 +10,9 @@ int main()
     }
     catch (const char *msg)
     {
-        std::cout << msg;
+        std::cout << msg<<std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
     try
     {
@@ -18,7 +20,9 @@ int main()
     }
     catch (const char *msg)
     {
-        std::cout << msg;
+        std::cout << msg<<std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
     try
     {
@@ -26,6 +30,8 @@ int main()
     }
     catch (const char *msg)
     {
-        std::cout << msg;
+        std::cout << msg<<std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 }

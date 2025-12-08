@@ -2,12 +2,12 @@
 #include <cmath>
 #include "func.h"
 
-void findApproximation_1_ForFirstIntegral(int64_t &n, double a, double b, double &s, int16_t status)
+void findApproximation_1_ForFirstIntegral(int64_t &n, double a, double b, double &s, int16_t num)
 {
     double h;
     h = (b - a) / n;
     s = 0;
-    switch (status)
+    switch (num)
     {
     case 1:
     {
@@ -74,18 +74,18 @@ void findApproximation_3_ForFirstIntegral(int64_t &n, double a, double b, double
     s *= h / 3;
 }
 
-void findApproximation_ForFirstIntegral(int64_t &n, double a, double b, double &s, int16_t status)
+void findApproximation_ForFirstIntegral(int64_t &n, double a, double b, double &s, int16_t num)
 {
-    switch (status)
+    switch (num)
     {
     case 1:
-        findApproximation_1_ForFirstIntegral(n, a, b, s, status);
+        findApproximation_1_ForFirstIntegral(n, a, b, s, num);
         break;
     case 2:
-        findApproximation_1_ForFirstIntegral(n, a, b, s, status);
+        findApproximation_1_ForFirstIntegral(n, a, b, s, num);
         break;
     case 3:
-        findApproximation_1_ForFirstIntegral(n, a, b, s, status);
+        findApproximation_1_ForFirstIntegral(n, a, b, s, num);
         break;
     case 4:
         findApproximation_2_ForFirstIntegral(n, a, b, s);
@@ -96,20 +96,20 @@ void findApproximation_ForFirstIntegral(int64_t &n, double a, double b, double &
     }
 }
 
-void findSolution_1(double a, double b, int16_t status)
+void findSolution_1(double a, double b, int16_t num)
 {
     int64_t n{4};
     double e{getEpsilon()};
     double s1;
-    findApproximation_ForFirstIntegral(n, a, b, s1, status);
+    findApproximation_ForFirstIntegral(n, a, b, s1, num);
     double s2;
     n *= 2;
-    findApproximation_ForFirstIntegral(n, a, b, s2, status);
+    findApproximation_ForFirstIntegral(n, a, b, s2, num);
     while (!(abs(s1 - s2) < e))
     {
         s1 = s2;
         n *= 2;
-        findApproximation_ForFirstIntegral(n, a, b, s2, status);
+        findApproximation_ForFirstIntegral(n, a, b, s2, num);
     }
     std::cout << "The answer is " << s2 << '\n';
 }
@@ -119,6 +119,6 @@ void firstIntegral()
     std::cout << "Solving first integral\n";
     double a{}, b{};
     enterBorders(a, b);
-    int status = get_status();
-    findSolution_1(a, b, status);
+    int num = get_status();
+    findSolution_1(a, b, num);
 }
