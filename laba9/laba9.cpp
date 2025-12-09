@@ -46,15 +46,28 @@ int main(){
             std::string word;
 
             while(line>>word){
-                if(subjectPointer.find(word)==subjectPointer.end()){
-                    subjectPointer[word].back();
+                auto it = subjectPointer.find(word);
+                if(it!=subjectPointer.end()){
+                    it->second.push_back(i);
                 }
                 else{
-                    subjectPointer[word];
+                    subjectPointer.insert(subjectPointer.begin(), std::pair<std::string, std::vector<size_t>>(word, {i}));
                 }
             }
+        }fin.close();
+        for(auto i : subjectPointer){
+            fout<<i.first<< ": ";
+            for (auto j : i.second){
+                fout<<j<<" ";
+            }
+            fout<<'\n';
         }
+        std::cout<<"All is DOne!";
+        fout.close();
     }catch(std::exception &e){
         std::cerr<<"Caught "<<e.what();
+    }
+    catch(const char *msg){
+        std::cout<<msg;
     }
 }
