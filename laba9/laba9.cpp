@@ -51,7 +51,7 @@ int main(){
                     it->second.push_back(i);
                 }
                 else{
-                    subjectPointer.insert(subjectPointer.begin(), std::pair<std::string, std::vector<size_t>>(word, {i}));
+                    subjectPointer.emplace(std::pair<std::string, std::vector<size_t>>(word, {i}));
                 }
             }
         }fin.close();
