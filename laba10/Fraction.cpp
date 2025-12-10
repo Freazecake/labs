@@ -1,5 +1,9 @@
 #include "Fraction.h"
 
+Fraction::Fraction()
+{
+}
+
 Fraction::Fraction(int num, int denom) : numerator(num), denominator(denom)
 {      
     fractionConversion(); 
@@ -10,13 +14,20 @@ Fraction::Fraction(const Fraction& other) : numerator(other.numerator),\
 {
 }
 
+Fraction::Fraction(Fraction&& other) noexcept : numerator(other.numerator),\
+                                                denominator(other.denominator)
+{
+    other.numerator = 0;
+    other.denominator = 1;
+}
+
 Fraction::~Fraction()
 {
 }
 
 void Fraction::fractionConversion(){
     if(denominator==0){
-        denominator=1; // idk what to do when denominator equals 0
+        denominator=1;
     }
     if (denominator>numerator){
         numerator%=denominator;
@@ -75,6 +86,8 @@ Fraction operationPerform(Fraction a, Fraction b, int operators){
         a.denominator*=b.numerator;
         return a;
         break;
+    default:
+        return a;
     }
 }
 
@@ -132,19 +145,108 @@ Fraction& Fraction::operator= (const Fraction& other){
     return *this;
 }
 
-Fraction& Fraction::operator! (){
-    unsigned int temp{numerator};
+Fraction Fraction::operator! (){
+    unsigned int temp{static_cast<unsigned int>(numerator)};
     numerator=denominator;
     denominator=temp;
     return *this;
 }
 
-Fraction& Fraction::operator- (){
+Fraction Fraction::operator- (){
     numerator*=-1;
     return *this;
 }
 
-Fraction& Fraction::operator-- (){
-    
+Fraction& Fraction::operator++ (){
+    numerator += static_cast<int>(denominator);
     return *this;
+}
+
+Fraction& Fraction::operator-- (){
+    numerator -= static_cast<int>(denominator);
+    return *this;
+}
+
+Fraction Fraction::operator++(int){
+    Fraction temp(*this);
+    numerator += static_cast<int>(denominator);
+    return temp;
+}
+
+Fraction Fraction::operator--(int){
+    Fraction temp(*this);
+    numerator -= static_cast<int>(denominator);
+    return temp;
+}
+
+
+bool boolOperationPerform(Fraction a, Fraction b, int bool_operators){
+    bringToSameDenom(a, b);
+    switch (bool_operators)
+    {
+    case 1:
+        return a.numerator > b.numerator;
+        break;
+    case 2:
+        return a.numerator < b.numerator;
+        break;
+    case 3:
+        return a.numerator >= b.numerator;
+        break;
+    case 4:
+        return a.numerator <= b.numerator;
+        break;
+    case 5:
+        return a.numerator == b.numerator;
+        break;
+    case 6:
+        return a.numerator != b.numerator;
+        break;
+    default:
+        return false;
+    }
+}
+
+bool Fraction::operator> (const Fraction& other) const{
+    Fraction temp(*this);
+    return boolOperationPerform(temp, other, 1);
+}
+
+bool Fraction::operator< (const Fraction& other) const{
+    Fraction temp(*this);
+    return boolOperationPerform(temp, other, 2);
+}
+
+bool Fraction::operator>= (const Fraction& other) const{
+    Fraction temp(*this);
+    return boolOperationPerform(temp, other, 3);
+}
+
+bool Fraction::operator<= (const Fraction& other) const{
+    Fraction temp(*this);
+    return boolOperationPerform(temp, other, 4);
+}
+
+bool Fraction::operator== (const Fraction& other) const{
+     Fraction temp(*this);
+    return boolOperationPerform(temp, other, 5);
+}
+
+bool Fraction::operator!= (const Fraction& other) const{
+    Fraction temp(*this);
+    return boolOperationPerform(temp, other, 6);
+}
+
+std::istream& operator>>(std::istream& in, Fraction& FracToWrite){
+    char slash;
+
+    in>>FracToWrite.numerator;
+    in>>slash;
+    in>>FracToWrite.denominator;
+    return in;
+}
+
+std::ostream& operator<<(std::ostream& out, const Fraction& FracToPrint){
+    out<<FracToPrint.numerator<<"/"<<FracToPrint.denominator;
+    return out;
 }
