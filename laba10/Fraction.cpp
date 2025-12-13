@@ -29,9 +29,10 @@ void Fraction::fractionConversion(){
     if(denominator==0){
         denominator=1;
     }
-    if (denominator>numerator){
+    if (denominator>abs(numerator)){
         numerator%=denominator;
     }
+
 }
 
 unsigned int denomNOD(unsigned int a, unsigned int b){
@@ -69,26 +70,22 @@ Fraction operationPerform(Fraction a, Fraction b, int operators){
     case 1:
         bringToSameDenom(a, b);
         a.numerator+=b.numerator;
-        return a;
         break;
     case 2:
         bringToSameDenom(a, b);
         a.numerator-=b.numerator;
-        return a;
         break;
     case 3:
         a.numerator*=b.numerator;
         a.denominator*=b.denominator;
-        return a;
         break;
     case 4:
         a.numerator*=b.denominator;
         a.denominator*=b.numerator;
-        return a;
         break;
-    default:
-        return a;
     }
+    a.fractionConversion();
+    return a;
 }
 
 Fraction Fraction::operator+ (const Fraction& other) const{
@@ -146,10 +143,10 @@ Fraction& Fraction::operator= (const Fraction& other){
 }
 
 Fraction Fraction::operator! (){
-    unsigned int temp{static_cast<unsigned int>(numerator)};
-    numerator=denominator;
-    denominator=temp;
-    return *this;
+    Fraction temp(*this);
+    temp.numerator=denominator;
+    temp.denominator=numerator;
+    return temp;
 }
 
 Fraction Fraction::operator- (){
@@ -247,6 +244,10 @@ std::istream& operator>>(std::istream& in, Fraction& FracToWrite){
 }
 
 std::ostream& operator<<(std::ostream& out, const Fraction& FracToPrint){
-    out<<FracToPrint.numerator<<"/"<<FracToPrint.denominator;
+    if(FracToPrint.numerator!=0)
+        out<<FracToPrint.numerator<<"/"<<FracToPrint.denominator;
+    else{
+        out<<'0';
+    }
     return out;
 }

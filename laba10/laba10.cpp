@@ -1,5 +1,4 @@
 #include "Fraction.h"
-#include "Fraction.cpp"
 
 #include <iomanip>
 
@@ -46,13 +45,13 @@ int main(){
     std::cout << "   c += d: " << c << '\n';
     
     c -= Fraction(1, 8);
-    std::cout << "   c -= Fraction(1, 8): " << c << '\n';
+    std::cout << "   c -= 1/8: " << c << '\n';
     
     c *= Fraction(2, 1);
-    std::cout << "   c *= Fraction(2, 1): " << c << '\n';
+    std::cout << "   c *= 2: " << c << '\n';
     
     c /= Fraction(2, 1);
-    std::cout << "   c /= Fraction(2, 1): " << c << '\n';
+    std::cout << "   c /= 2: " << c << '\n';
 
     std::cout << "4. ОПЕРАТОРЫ ПРИСВАИВАНИЯ:\n";
     Fraction e(5, 6);
@@ -60,12 +59,6 @@ int main(){
     std::cout << "   e = " << e << ", f = " << f << '\n';
     f = e;
     std::cout << "   После f = e (копирование): f = " << f << ", e = " << e << '\n';
-    
-    Fraction e2(7, 8);
-    Fraction fr;
-    std::cout << "   e2 = " << e2 << ", fr = " << fr << '\n';
-    f2 = std::move(e2);
-    std::cout << "   После f2 = std::move(e2) (перемещение): f2 = " << f2 << ", e2 = " << e2 << " (обнулен)" << '\n';
 
     std::cout << "5. УНАРНЫЕ ОПЕРАТОРЫ:\n";
     Fraction g(2, 3);
