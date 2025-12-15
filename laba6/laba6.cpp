@@ -118,7 +118,6 @@ void new_rand_input(std::vector<std::string> &arr, int32_t size)
         int32_t s_size = enter_string_size(i);
         for (int32_t j = 0; j < s_size; ++j)
             arr[i] += ' ' + dist(gen);
-        // std::cout<<"String has succesfully generated!\n";
     }
 }
 
@@ -253,4 +252,5 @@ int main()
     {
         std::cout << msg;
     }
+    return 0;
 }
