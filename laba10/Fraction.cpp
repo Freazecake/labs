@@ -1,9 +1,5 @@
 #include "Fraction.h"
 
-Fraction::Fraction()
-{
-}
-
 Fraction::Fraction(int num, int denom) : numerator(num), denominator(denom)
 {      
     fractionConversion(); 
@@ -60,7 +56,7 @@ void bringToSameDenom(Fraction& f1, Fraction& f2){
     f2.denominator = NOK;
 }
 
-double Fraction::fracToDouble(Fraction &frac){
+double fracToDouble(Fraction &frac){
     return static_cast<double>(frac.numerator) / frac.denominator;
 }
 
@@ -88,24 +84,48 @@ Fraction operationPerform(Fraction a, Fraction b, int operators){
     return a;
 }
 
-Fraction Fraction::operator+ (const Fraction& other) const{
+Fraction Fraction::operator+ (const int& num) const{
     Fraction temp(*this);
-    return operationPerform(temp, other, 1);
+    temp.numerator+=denominator*num;
+    return temp;
 }
 
-Fraction Fraction::operator- (const Fraction& other) const{
+Fraction Fraction::operator- (const int& num) const{
     Fraction temp(*this);
-    return operationPerform(temp, other, 2);
+    temp.numerator-=denominator*num;
+    return temp;
 }
 
-Fraction Fraction::operator* (const Fraction& other) const{
+Fraction Fraction::operator* (const int& num) const{
     Fraction temp(*this);
-    return operationPerform(temp, other, 3);
+    temp.numerator*=denominator*num;
+    return temp;
 }
 
-Fraction Fraction::operator/ (const Fraction& other) const{
+Fraction Fraction::operator/ (const int& num) const{
     Fraction temp(*this);
-    return operationPerform(temp, other, 4);
+    temp.numerator/=denominator*num;
+    return temp;
+}
+
+double Fraction::operator+ (const double& num) const{
+    Fraction temp(*this);
+    return fracToDouble(temp)+num;
+}
+
+double Fraction::operator- (const double& num) const{
+    Fraction temp(*this);
+    return fracToDouble(temp)-num;
+}
+
+double Fraction::operator* (const double& num) const{
+    Fraction temp(*this);
+    return fracToDouble(temp)*num;
+}
+
+double Fraction::operator/ (const double& num) const{
+    Fraction temp(*this);
+    return fracToDouble(temp)/num;
 }
 
 Fraction& Fraction::operator+= (const Fraction& other){

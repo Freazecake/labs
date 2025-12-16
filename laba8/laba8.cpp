@@ -35,7 +35,8 @@ std::vector<std::string> extractWords(const std::string &str, const std::string 
     std::vector<std::string> words;
     std::string currentWord;
     
-    for (size_t i = 0; i < str.length(); ++i)
+    size_t n=str.length();
+    for (size_t i = 0; i < n; ++i)
     {
         if (isSeparator(separators, str[i]))
         {

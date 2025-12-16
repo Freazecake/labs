@@ -3,6 +3,8 @@
 #include <iomanip>
 
 int main(){
+    Fraction f1{1, 2};
+
     std::cout << "=== Демонстрация всех возможностей класса Fraction ===\n\n";
 
     std::cout << "1. КОНСТРУКТОРЫ:\n";
@@ -111,10 +113,10 @@ int main(){
     Fraction frac2(22, 7);
     std::cout << "   frac1 = " << frac1 << '\n';
     std::cout << "   frac1.fracToDouble(frac1) = " << std::fixed << std::setprecision(6) 
-              << frac1.fracToDouble(frac1) << '\n';
+              << fracToDouble(frac1) << '\n';
     std::cout << "   frac2 = " << frac2 << '\n';
     std::cout << "   frac2.fracToDouble(frac2) = " << std::fixed << std::setprecision(6) 
-              << frac2.fracToDouble(frac2) << '\n';
+              << fracToDouble(frac2) << '\n';
 
     std::cout << "\n=== Демонстрация завершена ===\n";
     

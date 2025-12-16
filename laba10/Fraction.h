@@ -4,25 +4,32 @@
 
 class Fraction{
     private:
-        int numerator=0;
-        unsigned int denominator=1;
+        int numerator;
+        int denominator;
         void fractionConversion();
         friend Fraction operationPerform(Fraction, Fraction, int);
         friend bool boolOperationPerform(Fraction, Fraction, int);
     public:
-        Fraction();
-        Fraction(int, int);
+        Fraction(int = 0, int = 1);
         Fraction(const Fraction&);
         Fraction(Fraction&&) noexcept;
         ~Fraction();
         
         friend void bringToSameDenom(Fraction&, Fraction&);
-        double fracToDouble(Fraction &);
+        friend double fracToDouble(Fraction &);
         
         Fraction operator+ (const Fraction&) const;
         Fraction operator- (const Fraction&) const;
         Fraction operator* (const Fraction&) const;
         Fraction operator/ (const Fraction&) const;
+        Fraction operator+ (const int&) const;
+        Fraction operator- (const int&) const;
+        Fraction operator* (const int&) const;
+        Fraction operator/ (const int&) const;
+        double operator+ (const double&) const;
+        double operator- (const double&) const;
+        double operator* (const double&) const;
+        double operator/ (const double&) const;
 
         Fraction& operator+= (const Fraction&);
         Fraction& operator-= (const Fraction&);

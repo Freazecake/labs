@@ -5,6 +5,7 @@
 #include <string>
 #include <type_traits>
 #include <vector>
+#include <cstring>
 
 int get_type_status()
 {
@@ -12,7 +13,7 @@ int get_type_status()
     std::cout << "enter a vector type:\n"
                  "    1-int vector\n"
                  "    2-double vector\n"
-                 "    3-string vector\n"
+                 "    3-char* vector\n"
                  "your choice: ";
     if (!(std::cin >> status))
         throw "you need to enter a number\n";
@@ -73,7 +74,7 @@ void enterBorders(int &a, int &b)
         std::swap(a, b);
 }
 
-template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+template <typename T>
 void keyboard_input(std::vector<T> &arr, int32_t size)
 {
     arr.resize(size);
@@ -85,16 +86,18 @@ void keyboard_input(std::vector<T> &arr, int32_t size)
     }
 }
 
-void keyboard_input(std::vector<std::string> &arr, int32_t size)
+void keyboard_input(std::vector<char *> &arr, int32_t size)
 {
-    arr.resize(size);
     std::cout << "enter your array elements:\n";
-    std::cin.ignore();
     for (int32_t i = 0; i < size; ++i)
-        std::getline(std::cin, arr[i]);
+    {
+        char buf[256];
+        std::cin.getline(buf, 256);
+        arr.push_back(strdup(buf));
+    }
 }
 
-template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+template <typename T>
 void new_rand_input(std::vector<T> &arr, int32_t size)
 {
     arr.resize(size);
@@ -107,21 +110,23 @@ void new_rand_input(std::vector<T> &arr, int32_t size)
         arr[i] = static_cast<T>(dist(gen));
 }
 
-void new_rand_input(std::vector<std::string> &arr, int32_t size)
+void new_rand_input(std::vector<char *> &arr, int32_t size)
 {
-    arr.resize(size);
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dist(0, 94);
     for (int32_t i = 0; i < size; ++i)
     {
         int32_t s_size = enter_string_size(i);
+        char *buf = new char[s_size + 1];
         for (int32_t j = 0; j < s_size; ++j)
-            arr[i] += ' ' + dist(gen);
+            buf[j] = ' ' + dist(gen);
+        buf[s_size] = '\0';
+        arr.push_back(buf);
     }
 }
 
-template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+template <typename T>
 void file_input(std::vector<T> &arr, std::ifstream &fin)
 {
     fileChecking(fin);
@@ -132,13 +137,13 @@ void file_input(std::vector<T> &arr, std::ifstream &fin)
     }
 }
 
-void file_input(std::vector<std::string> &arr, std::ifstream &fin)
+void file_input(std::vector<char *> &arr, std::ifstream &fin)
 {
     fileChecking(fin);
-    std::string temp;
-    while (getline(fin, temp))
+    char buf[256];
+    while (fin.getline(buf, 256))
     {
-        arr.push_back(temp);
+        arr.push_back(strdup(buf));
     }
 }
 
@@ -148,6 +153,17 @@ void insert_sort(std::vector<T> &arr, int32_t size)
     for (int32_t i = 0; i < size; ++i)
     {
         for (int32_t j = i; j > 0 && arr[j - 1] > arr[j]; --j)
+        {
+            std::swap(arr[j], arr[j - 1]);
+        }
+    }
+}
+
+void insert_sort(std::vector<char *> &arr, int32_t size)
+{
+    for (int32_t i = 0; i < size; ++i)
+    {
+        for (int32_t j = i; j > 0 && std::strcmp(arr[j - 1], arr[j]) > 0; --j)
         {
             std::swap(arr[j], arr[j - 1]);
         }
@@ -207,6 +223,8 @@ void ArrayInputMethod(std::vector<T> &arr)
         file_input(arr, fin);
         fin.close();
         std::cout << "Unsorted vector:\n";
+        std::cout<<arr[0];
+        std::cout<<arr.size();
         print_array(arr);
         std::cout << "----------------------------------------------------------\n";
         int32_t size = arr.size();
@@ -240,7 +258,7 @@ int main()
         }
         case 3:
         {
-            std::vector<std::string> arr;
+            std::vector<char *> arr;
             ArrayInputMethod(arr);
             break;
         }

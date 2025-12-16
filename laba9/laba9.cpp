@@ -10,15 +10,15 @@ void checkInputFile(std::ifstream &fin)
 {
     if (!fin.good())
     {
-        throw "file doesnt exist";
+        throw std::runtime_error("file doesnt exist");
     }
     if (!fin)
     {
-        throw "file error";
+        throw std::runtime_error("file error");
     }
     if (fin.peek() == EOF)
     {
-        throw "file is empty";
+        throw std::"file is empty";
     }
 }
 
@@ -62,7 +62,7 @@ int main(){
             }
             fout<<'\n';
         }
-        std::cout<<"All is DOne!";
+        std::cout<<"All is Done!";
         fout.close();
     }catch(std::exception &e){
         std::cerr<<"Caught "<<e.what();
